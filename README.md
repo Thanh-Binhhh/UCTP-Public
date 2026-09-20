@@ -14,43 +14,41 @@ Trong trường hợp bài toán UCTP, Khung dữ liệu huấn luyện xác đ�
 
 ## Mô tả dữ liệu
 
-⚠️ Do chứa thông tin nội bộ, các tệp dữ liệu sẽ không được công khai.
-
 Dữ liệu gốc được lưu trong một tệp bảng tính (.xlsx) gồm nhiều trang tính (sheets). Trang tính được sử dụng trong quá trình xử lý chứa các trường dữ liệu chính sau:
 
-| STT | Trường dữ liệu   | Kiểu dữ liệu  | Mô tả                                                                                  | Ví dụ                    |
-| --: | ---------------- | ------------- | -------------------------------------------------------------------------------------- | ------------------------ |
-|   1 | Mã MH            | String        | Mã định danh của môn học.                                                              | `503073`                 |
-|   2 | Nhóm             | Integer       | Các sinh viên đăng ký cùng một môn học sẽ được chia vào các nhóm.                      | `3`                      |
-|   3 | Tổ               | Integer       | Một nhóm có thể được chia thành các tổ để phục vụ cho giờ học thực hành.               | `0`, `1`                 |
-|   4 | Tên môn          | String        | Tên môn học.                                                                           | `Cơ sở dữ liệu`          |
-|   5 | Sỉ số            | Integer       | Số lượng sinh viên trong một nhóm hoặc tổ.                                             | `45`                     |
-|   6 | Thứ              | Integer       | Thứ học trong tuần.                                                                    | `2`                      |
-|   7 | Ca/Tiết          | String        | Ca học của một nhóm, tổ.                                                               | `123-------------`       |
-|   8 | Phòng            | String        | Phòng học được phân công .                                                             | `C203`                   |
-|   9 | Giảng viên       | String        | Họ tên giảng viên phụ trách giảng dạy.                                                 | `Nguyễn Văn A`           |
-|  10 | Email cá nhân    | String / Null | Địa chỉ email cá nhân của giảng viên, sử dụng khi giảng viên chưa có email của trường. | `nguyenvana@gmail.com`   |
-|  11 | Email TDTU       | String / Null | Địa chỉ email thuộc hệ thống của Trường.                                               | `nguyenvana@tdtu.edu.vn` |
-|  12 | Hệ ĐT/Hệ đào tạo | String        | Hệ đào tạo của sinh viên.                                                              | `Tiêu chuẩn`             |
+| STT | Trường dữ liệu   | Kiểu dữ liệu  | Mô tả                                                                                 | Ví dụ                  |
+| --- | ---------------- | ------------- | ------------------------------------------------------------------------------------- | ---------------------- |
+| 1   | Mã MH            | String        | Mã định danh của môn học                                                              | 503073                 |
+| 2   | Nhóm             | Integer       | Các sinh viên đăng ký cùng một môn học sẽ được chia vào các nhóm                      | 3                      |
+| 3   | Tổ               | Integer       | Một nhóm có thể được chia thành các tổ để phục vụ cho giờ học thực hành               | 0, 1                   |
+| 4   | Tên môn          | String        | Tên môn học                                                                           | Cơ sở dữ liệu          |
+| 5   | Sỉ số            | Integer       | Số lượng sinh viên trong một nhóm hoặc tổ                                             | 45                     |
+| 6   | Thứ              | Integer       | Thứ học trong tuần                                                                    | 2                      |
+| 7   | Ca/Tiết          | String        | Ca học của một nhóm, tổ                                                               | 123-------------       |
+| 8   | Phòng            | String        | Phòng học được phân công                                                              | C203                   |
+| 9   | Giảng viên       | String        | Họ tên giảng viên phụ trách giảng dạy                                                 | Nguyễn Văn A           |
+| 10  | Email cá nhân    | String / Null | Địa chỉ email cá nhân của giảng viên, sử dụng khi giảng viên chưa có email của trường | nguyenvana@gmail.com   |
+| 11  | Email TDTU       | String / Null | Địa chỉ email thuộc hệ thống của Trường                                               | nguyenvana@tdtu.edu.vn |
+| 12  | Hệ ĐT/Hệ đào tạo | String        | Hệ đào tạo của sinh viên                                                              | Tiêu chuẩn             |
 
 Sau khi hoàn tất, dữ liệu được lưu dưới định dạng JSON. File JSON có cấu trúc là một mảng các đối tượng, trong đó mỗi đối tượng đại diện cho một nhóm hoặc một tổ.
 <br>
 Đồng thời, tên các trường dữ liệu được chuyển sang tiếng Anh nhằm tránh các vấn đề liên quan đến dấu tiếng Việt và khoảng trắng. Bảng ánh xạ tên trường dữ liệu như sau:
 
 | STT | Tên trường (English) | Tên trường tương ứng (Tiếng Việt) |
-| --: | -------------------- | --------------------------------- |
-|   1 | CourseID             | Mã MH                             |
-|   2 | CourseName           | Tên môn                           |
-|   3 | Group                | Nhóm                              |
-|   4 | SubGroup             | Tổ                                |
-|   5 | DayOfWeek            | Thứ                               |
-|   6 | TimeSlot             | Ca/Tiết                           |
-|   7 | RoomID               | Phòng                             |
-|   8 | Capacity             | Sỉ số                             |
-|   9 | Lecturer             | Giảng viên                        |
-|  10 | PersonalEmail        | Email cá nhân                     |
-|  11 | UniversityEmail      | Email TDTU                        |
-|  12 | Program              | Hệ ĐT/Hệ đào tạo                  |
+| --- | -------------------- | --------------------------------- |
+| 1   | CourseID             | Mã MH                             |
+| 2   | CourseName           | Tên môn                           |
+| 3   | Group                | Nhóm                              |
+| 4   | SubGroup             | Tổ                                |
+| 5   | DayOfWeek            | Thứ                               |
+| 6   | TimeSlot             | Ca/Tiết                           |
+| 7   | RoomID               | Phòng                             |
+| 8   | Capacity             | Sỉ số                             |
+| 9   | Lecturer             | Giảng viên                        |
+| 10  | PersonalEmail        | Email cá nhân                     |
+| 11  | UniversityEmail      | Email TDTU                        |
+| 12  | Program              | Hệ ĐT/Hệ đào tạo                  |
 
 ## Mô tả các bước xử lý dữ liệu
 
@@ -65,7 +63,7 @@ Sau khi hoàn tất, dữ liệu được lưu dưới định dạng JSON. File
 - Kiểm tra mỗi dòng dữ liệu có ít nhất một trong hai thông tin liên hệ của giảng viên: Email cá nhân hoặc Email của Trường.
 
 <p align="center">
-  <img src="screenshots/1.png" width="700">
+  <img src="screenshots/1.png" width="500">
 </p>
 
 #### 2. Xử lý dữ liệu mâu thuẫn
@@ -107,24 +105,24 @@ Trực quan hóa chi tiết số dòng dữ liệu bị loại trừ tại bư�
 
 ## Hướng dẫn chạy dự án
 
-### 1. Điều kiện
+#### 1. Điều kiện
 
 - [Git](https://git-scm.com/)
 - [parquet-viewer]() - Extensions để trực quan file .parquet, nếu dùng [Visual Studio Code]()
 
-### 2. Sao chép kho lưu trữ
+#### 2. Sao chép kho lưu trữ
 
 ```bash
 git clone https://github.com/Thanh-Binhhh/UCTP-Public.git
 ```
 
-### 3. Khởi động dự án
+#### 3. Khởi động dự án
 
 Tiến hành chạy file `main.ipynb`
 
 ## Hướng dẫn sửa lỗi (nếu có)
 
-### 1. Trường `Email cá nhân` và `Email TDTU` rỗng
+#### 1. Trường `Email cá nhân` và `Email TDTU` rỗng
 
 Bản chất dữ liệu của cột `Email cá nhân` và `Email TDTU` trong file Excel không phải dữ liệu tĩnh, mà được sinh ra từ công thức Excel, ví dụ `=VLOOKUP(N2, Email!B:D, 2, 0)`. Điều này có nghĩa là giá trị email không được lưu trực tiếp trong ô mà chỉ được tính toán tại thời điểm Excel thực hiện recalculation.
 
