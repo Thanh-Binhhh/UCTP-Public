@@ -87,20 +87,27 @@ Bảng ánh xạ tên trường dữ liệu như sau:
 
 #### 2. Xử lý dữ liệu mâu thuẫn
 Trong dữ liệu thời khóa biểu có thể tồn tại các dòng dữ liệu mâu thuẫn với nhau, bao gồm:
-  - Một giảng viên được phân công giảng dạy nhiều hơn một lớp tại cùng một thời điểm.
-  - Một phòng học được sử dụng cho nhiều hơn một lớp tại cùng một thời điểm.
 
-Với mỗi tập chứa các dòng dữ liệu xảy ra mâu thuẫn: $$ I = \{i_1, i_2, \ldots, i_n\} $$
+- Một giảng viên được phân công giảng dạy nhiều hơn một lớp tại cùng một thời điểm.
+
+- Một phòng học được sử dụng cho nhiều hơn một lớp tại cùng một thời điểm.
+
+Với mỗi tập chứa các dòng dữ liệu xảy ra mâu thuẫn:
+
+```math
+I = \{i_1, i_2, \ldots, i_n\}
+```
 
 lần lượt xem xét từng phương án giữ lại một dòng $i_j$ và loại bỏ các dòng còn lại:
 
-$$
+```math
 R_j = I \setminus \{i_j\}
-$$
+```
 
 Việc lựa chọn dòng dữ liệu được giữ lại dựa trên hai tiêu chí:
 
 1. Mức mất mát dữ liệu theo môn học.
+
 2. Mức mất mát dữ liệu theo hệ đào tạo.
 
 ##### 2.1 Tỷ lệ mất mát dữ liệu theo môn học
@@ -108,25 +115,26 @@ Việc lựa chọn dòng dữ liệu được giữ lại dựa trên hai tiêu
 Với mỗi môn học $c$, ký hiệu:
 
 * $N_c$: số lớp của môn học $c$ trước khi xử lý dữ liệu.
+
 * $N'_{c,j}$: số lớp của môn học $c$ còn lại sau khi giả định giữ dòng $i_j$ và loại các dòng còn lại trong tập mâu thuẫn.
 
 Tỷ lệ dữ liệu mất mát của môn học $c$ được xác định bởi:
 
-$$
+```math
 L_c(i_j)
 =
 \frac{N_c-N'_{c,j}}{N_c}
 \times 100
-$$
+```
 
 Nếu việc loại bỏ các dòng trong $R_j$ ảnh hưởng đến nhiều môn học, tổng tỷ lệ mất mát theo môn học của phương án giữ $i_j$ được tính bằng:
 
-$$
+```math
 C_j
 =
 \sum_{c \in C(R_j)}
 L_c(i_j)
-$$
+```
 
 trong đó $C(R_j)$ là tập các môn học bị ảnh hưởng bởi việc loại bỏ các dòng thuộc $R_j$.
 
@@ -135,25 +143,26 @@ trong đó $C(R_j)$ là tập các môn học bị ảnh hưởng bởi việc l
 Tương tự, với mỗi hệ đào tạo $s$, ký hiệu:
 
 * $N_s$: số lớp thuộc hệ đào tạo $s$ trước khi xử lý dữ liệu.
+
 * $N'_{s,j}$: số lớp thuộc hệ đào tạo $s$ còn lại sau khi giả định giữ dòng $i_j$.
 
 Tỷ lệ dữ liệu mất mát của hệ đào tạo $s$ được xác định bởi:
 
-$$
+```math
 L_s(i_j)
 =
 \frac{N_s-N'_{s,j}}{N_s}
 \times 100
-$$
+```
 
 Tổng tỷ lệ mất mát theo hệ đào tạo của phương án giữ $i_j$ được tính bằng:
 
-$$
+```math
 S_j
 =
 \sum_{s \in S(R_j)}
 L_s(i_j)
-$$
+```
 
 trong đó $S(R_j)$ là tập các hệ đào tạo bị ảnh hưởng bởi việc loại bỏ các dòng thuộc $R_j$.
 
@@ -161,41 +170,41 @@ trong đó $S(R_j)$ là tập các hệ đào tạo bị ảnh hưởng bởi vi
 
 Sau khi tính toán mức mất mát của từng phương án, xác định giá trị nhỏ nhất theo hai tiêu chí:
 
-$$
+```math
 C_{\min}
 =
 \min_{i_j \in I} C_j
-$$
+```
 
-$$
+```math
 S_{\min}
 =
 \min_{i_j \in I} S_j
-$$
+```
 
 Tập các dòng có mức mất mát theo môn học nhỏ nhất:
 
-$$
+```math
 A_C
 =
 \{i_j \in I \mid C_j=C_{\min}\}
-$$
+```
 
 Tập các dòng có mức mất mát theo hệ đào tạo nhỏ nhất:
 
-$$
+```math
 A_S
 =
 \{i_j \in I \mid S_j=S_{\min}\}
-$$
+```
 
 **Trường hợp 1: Có dòng đồng thời tối ưu cả hai tiêu chí**
 
 Nếu:
 
-$$
+```math
 A_C \cap A_S \neq \varnothing
-$$
+```
 
 thì dòng dữ liệu thuộc giao của hai tập trên được ưu tiên giữ lại:
 
@@ -205,17 +214,17 @@ Trong trường hợp có nhiều dòng cùng thỏa mãn hai tiêu chí, dòng 
 
 Nếu:
 
-$$
+```math
 A_C \cap A_S = \varnothing
-$$
+```
 
 thì ta tính tổng mức mất mát của mỗi phương án:
 
-$$
+```math
 T_j
 =
 C_j + S_j
-$$
+```
 
 Dòng có tổng mức mất mát nhỏ nhất được giữ lại, tất cả các dòng còn lại trong tập mâu thuẫn sẽ bị loại bỏ.
 
