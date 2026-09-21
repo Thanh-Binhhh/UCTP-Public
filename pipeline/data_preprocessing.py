@@ -1,5 +1,5 @@
 import re
-from .hepler_functions import log_success, log_error
+from .helper_functions import log_success, log_error
 
 
 class Preprocessing:

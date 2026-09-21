@@ -86,17 +86,140 @@ Bảng ánh xạ tên trường dữ liệu như sau:
 </p>
 
 #### 2. Xử lý dữ liệu mâu thuẫn
+Trong dữ liệu thời khóa biểu có thể tồn tại các dòng dữ liệu mâu thuẫn với nhau, bao gồm:
+  - Một giảng viên được phân công giảng dạy nhiều hơn một lớp tại cùng một thời điểm.
+  - Một phòng học được sử dụng cho nhiều hơn một lớp tại cùng một thời điểm.
 
-- Phát hiện các dòng dữ liệu mâu thuẫn với nhau:
-  - Một giảng viên bất kỳ có dạy nhiều hơn một lớp tại một thời điểm hay không.
-  - Một phòng học bất kỳ có được phân nhiều hơn một lớp tại một thời điểm hay không.
-- Với mỗi tập chứa các dòng dữ liệu mâu thuẫn, I = {i_0, i_1,..., i_n}, việc lựa chọn dòng dữ liệu nào được giữ lại thực hiện theo các tiêu chí sau:
-  - Nếu tồn tại dòng dữ liệu i_j sao cho việc giữ lại i_j đồng thời làm tối thiểu hóa:
-    - tổng tỷ lệ dữ liệu mất mát theo môn học (của các dòng dữ liệu còn lại trong I), và 
-    - tổng tỷ lệ dữ liệu mất mát theo hệ đào tạo (của các dòng dữ liệu còn lại trong I),  
-thì ta giữ lại dòng dữ liệu i_j.
+Với mỗi tập chứa các dòng dữ liệu xảy ra mâu thuẫn: $$ I = \{i_1, i_2, \ldots, i_n\} $$
 
-  - Trong các trường hợp còn lại, giữ lại dòng dữ liệu i_j sao cho tổng của hai tỷ lệ mất mát trên là nhỏ nhất.
+lần lượt xem xét từng phương án giữ lại một dòng $i_j$ và loại bỏ các dòng còn lại:
+
+$$
+R_j = I \setminus \{i_j\}
+$$
+
+Việc lựa chọn dòng dữ liệu được giữ lại dựa trên hai tiêu chí:
+
+1. Mức mất mát dữ liệu theo môn học.
+2. Mức mất mát dữ liệu theo hệ đào tạo.
+
+##### 2.1 Tỷ lệ mất mát dữ liệu theo môn học
+
+Với mỗi môn học $c$, ký hiệu:
+
+* $N_c$: số lớp của môn học $c$ trước khi xử lý dữ liệu.
+* $N'_{c,j}$: số lớp của môn học $c$ còn lại sau khi giả định giữ dòng $i_j$ và loại các dòng còn lại trong tập mâu thuẫn.
+
+Tỷ lệ dữ liệu mất mát của môn học $c$ được xác định bởi:
+
+$$
+L_c(i_j)
+=
+\frac{N_c-N'_{c,j}}{N_c}
+\times 100
+$$
+
+Nếu việc loại bỏ các dòng trong $R_j$ ảnh hưởng đến nhiều môn học, tổng tỷ lệ mất mát theo môn học của phương án giữ $i_j$ được tính bằng:
+
+$$
+C_j
+=
+\sum_{c \in C(R_j)}
+L_c(i_j)
+$$
+
+trong đó $C(R_j)$ là tập các môn học bị ảnh hưởng bởi việc loại bỏ các dòng thuộc $R_j$.
+
+##### 2.2 Tỷ lệ mất mát dữ liệu theo hệ đào tạo
+
+Tương tự, với mỗi hệ đào tạo $s$, ký hiệu:
+
+* $N_s$: số lớp thuộc hệ đào tạo $s$ trước khi xử lý dữ liệu.
+* $N'_{s,j}$: số lớp thuộc hệ đào tạo $s$ còn lại sau khi giả định giữ dòng $i_j$.
+
+Tỷ lệ dữ liệu mất mát của hệ đào tạo $s$ được xác định bởi:
+
+$$
+L_s(i_j)
+=
+\frac{N_s-N'_{s,j}}{N_s}
+\times 100
+$$
+
+Tổng tỷ lệ mất mát theo hệ đào tạo của phương án giữ $i_j$ được tính bằng:
+
+$$
+S_j
+=
+\sum_{s \in S(R_j)}
+L_s(i_j)
+$$
+
+trong đó $S(R_j)$ là tập các hệ đào tạo bị ảnh hưởng bởi việc loại bỏ các dòng thuộc $R_j$.
+
+##### 2.3 Lựa chọn dòng dữ liệu được giữ lại
+
+Sau khi tính toán mức mất mát của từng phương án, xác định giá trị nhỏ nhất theo hai tiêu chí:
+
+$$
+C_{\min}
+=
+\min_{i_j \in I} C_j
+$$
+
+$$
+S_{\min}
+=
+\min_{i_j \in I} S_j
+$$
+
+Tập các dòng có mức mất mát theo môn học nhỏ nhất:
+
+$$
+A_C
+=
+\{i_j \in I \mid C_j=C_{\min}\}
+$$
+
+Tập các dòng có mức mất mát theo hệ đào tạo nhỏ nhất:
+
+$$
+A_S
+=
+\{i_j \in I \mid S_j=S_{\min}\}
+$$
+
+**Trường hợp 1: Có dòng đồng thời tối ưu cả hai tiêu chí**
+
+Nếu:
+
+$$
+A_C \cap A_S \neq \varnothing
+$$
+
+thì dòng dữ liệu thuộc giao của hai tập trên được ưu tiên giữ lại:
+
+Trong trường hợp có nhiều dòng cùng thỏa mãn hai tiêu chí, dòng có chỉ số nhỏ nhất được lựa chọn.
+
+**Trường hợp 2: Không có dòng đồng thời tối ưu cả hai tiêu chí**
+
+Nếu:
+
+$$
+A_C \cap A_S = \varnothing
+$$
+
+thì ta tính tổng mức mất mát của mỗi phương án:
+
+$$
+T_j
+=
+C_j + S_j
+$$
+
+Dòng có tổng mức mất mát nhỏ nhất được giữ lại, tất cả các dòng còn lại trong tập mâu thuẫn sẽ bị loại bỏ.
+
+Kết luận, quá trình xử lý mâu thuẫn ưu tiên giữ lại phương án làm giảm ít nhất sự phân bố dữ liệu ban đầu theo **môn học** và **hệ đào tạo**, qua đó hạn chế mức độ mất cân bằng dữ liệu.
 
 #### 3. Các thao tác trực quan hóa dữ liệu
 
@@ -154,34 +277,36 @@ Trong khi đó, thư viện `pandas` không thực thi công thức Excel, mà c
 ## Cấu trúc dự án
 
 ```
-
 ├── EDA/
 │   ├── data/
-│   │   ├── raw_data                // Chứa dữ liệu gốc
-│   │   |   ├── 2022-2023   
-│   │   |   |   ├── HK1 
-│   │   |   |   |   ├── DSSV.xlsx 
-│   │   |   |   |   └── TKB.xlsx 
-│   │   |   |   ├── HK2 
-│   │   |   |   |   ├── DSSV.xlsx 
-│   │   |   |   |   └── TKB.xlsx 
-|   |   |   |   
-│   │   |   ├── 2023-2024   
-│   │   |   |   ├── HK1 
-│   │   |   |   |   ├── DSSV.xlsx 
-│   │   |   |   |   └── TKB.xlsx 
-│   │   |   |   ├── HK2 
-│   │   |   |   |   ├── DSSV.xlsx 
-│   │   |   |   |   └── TKB.xlsx 
-|   |   |   
-│   │   └── training_ready_data     // Chứa dữ liệu sau khi đã hoàn thành xử lý, có thể đưa vào máy học.
-│   ├── pipeline/                   // Chứa các file thư viện
-│   │   ├── data_inconsistency.py   // Xử lý dữ liệu mâu thuẫn
-│   │   ├── data_preprocessing.py   // Tiền xử lý dữ liệu
-│   │   ├── data_visualization.py   // Trực quan dữ liệu
-│   │   └── hepler_functions.py     // Các hàm bổ trợ
-│   ├── main.ipynb                  // Entry point
-│   └── README.md
+│   │   ├── raw_data/                 // Chứa dữ liệu gốc
+│   │   │   ├── 2022-2023/
+│   │   │   │   ├── HK1/
+│   │   │   │   │   ├── DSSV.xlsx
+│   │   │   │   │   └── TKB.xlsx
+│   │   │   │   └── HK2/
+│   │   │   │       ├── DSSV.xlsx
+│   │   │   │       └── TKB.xlsx
+│   │   │   │
+│   │   │   └── 2023-2024/
+│   │   │       ├── HK1/
+│   │   │       │   ├── DSSV.xlsx
+│   │   │       │   └── TKB.xlsx
+│   │   │       └── HK2/
+│   │   │           ├── DSSV.xlsx
+│   │   │           └── TKB.xlsx
+│   │   │
+│   │   └── training_ready_data/      // Chứa dữ liệu sau khi đã hoàn thành xử lý
+│   │
+│   ├── pipeline/
+│   │   ├── data_inconsistency.py     // Xử lý dữ liệu mâu thuẫn
+│   │   ├── data_preprocessing.py     // Tiền xử lý dữ liệu
+│   │   ├── data_visualization.py     // Trực quan dữ liệu
+│   │   └── helper_functions.py       // Các hàm bổ trợ
+│   │
+│   └── main.ipynb                    // Entry point
+│
+└── README.md
 
 ```
 

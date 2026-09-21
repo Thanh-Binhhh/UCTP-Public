@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from pipeline.hepler_functions import print_df
+from pipeline.helper_functions import print_df
 
 
 class Visualization:

@@ -1,6 +1,6 @@
 from pathlib import Path
 import pandas as pd
-from pipeline.hepler_functions import log_success
+from pipeline.helper_functions import log_success
 
 
 class SelectionAndRefinement:
