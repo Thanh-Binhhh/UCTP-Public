@@ -71,7 +71,7 @@ Bảng ánh xạ tên trường dữ liệu như sau:
 
 ## Mô tả các bước xử lý dữ liệu
 
-#### 1. Tiền xử lý dữ liệu
+### 1. Tiền xử lý dữ liệu
 
 - Sử dụng `pathlib` và `pandas` để dò tìm tệp dữ liệu nguồn, đọc cấu trúc và lựa chọn trang tính có tên chứa từ khóa "final".
 - Chuẩn hóa các giá trị trong cột Điện thoại và Lớp về kiểu dữ liệu chuỗi.
@@ -85,7 +85,7 @@ Bảng ánh xạ tên trường dữ liệu như sau:
   <img src="screenshots/1.png" width="500">
 </p>
 
-#### 2. Xử lý dữ liệu mâu thuẫn
+### 2. Xử lý dữ liệu mâu thuẫn
 Trong dữ liệu thời khóa biểu có thể tồn tại các dòng dữ liệu mâu thuẫn với nhau, bao gồm:
 
 - Một giảng viên được phân công giảng dạy nhiều hơn một lớp tại cùng một thời điểm.
@@ -110,7 +110,7 @@ Việc lựa chọn dòng dữ liệu được giữ lại dựa trên hai tiêu
 
 2. Mức mất mát dữ liệu theo hệ đào tạo.
 
-##### 2.1 Tỷ lệ mất mát dữ liệu theo môn học
+#### 2.1 Tỷ lệ mất mát dữ liệu theo môn học
 
 Với mỗi môn học $c$, ký hiệu:
 
@@ -138,7 +138,7 @@ L_c(i_j)
 
 trong đó $C(R_j)$ là tập các môn học bị ảnh hưởng bởi việc loại bỏ các dòng thuộc $R_j$.
 
-##### 2.2 Tỷ lệ mất mát dữ liệu theo hệ đào tạo
+#### 2.2 Tỷ lệ mất mát dữ liệu theo hệ đào tạo
 
 Tương tự, với mỗi hệ đào tạo $s$, ký hiệu:
 
@@ -166,7 +166,7 @@ L_s(i_j)
 
 trong đó $S(R_j)$ là tập các hệ đào tạo bị ảnh hưởng bởi việc loại bỏ các dòng thuộc $R_j$.
 
-##### 2.3 Lựa chọn dòng dữ liệu được giữ lại
+#### 2.3 Lựa chọn dòng dữ liệu được giữ lại
 
 Sau khi tính toán mức mất mát của từng phương án, xác định giá trị nhỏ nhất theo hai tiêu chí:
 
@@ -206,7 +206,7 @@ Nếu:
 A_C \cap A_S \neq \varnothing
 ```
 
-thì dòng dữ liệu thuộc giao của hai tập trên được ưu tiên giữ lại:
+thì dòng dữ liệu thuộc giao của hai tập trên được ưu tiên giữ lại.
 
 Trong trường hợp có nhiều dòng cùng thỏa mãn hai tiêu chí, dòng có chỉ số nhỏ nhất được lựa chọn.
 
@@ -230,7 +230,7 @@ Dòng có tổng mức mất mát nhỏ nhất được giữ lại, tất cả 
 
 Kết luận, quá trình xử lý mâu thuẫn ưu tiên giữ lại phương án làm giảm ít nhất sự phân bố dữ liệu ban đầu theo **môn học** và **hệ đào tạo**, qua đó hạn chế mức độ mất cân bằng dữ liệu.
 
-#### 3. Các thao tác trực quan hóa dữ liệu
+### 3. Các thao tác trực quan hóa dữ liệu
 
 Trực quan hóa tổng số dòng dữ liệu bị loại trừ sau khi kết thúc 2 quá trình xử lý.
 
@@ -258,24 +258,24 @@ Trực quan hóa chi tiết số dòng dữ liệu bị loại trừ tại bư�
 
 ## Hướng dẫn chạy dự án
 
-#### 1. Điều kiện
+### 1. Điều kiện
 
 - [Git](https://git-scm.com/)
 - [parquet-viewer]() - Extensions để trực quan file .parquet, nếu dùng [Visual Studio Code]()
 
-#### 2. Sao chép kho lưu trữ
+### 2. Sao chép kho lưu trữ
 
 ```bash
 git clone https://github.com/Thanh-Binhhh/UCTP-Public.git
 ```
 
-#### 3. Khởi động dự án
+### 3. Khởi động dự án
 
 Tiến hành chạy file `main.ipynb`
 
 ## Hướng dẫn sửa lỗi (nếu có)
 
-#### 1. Trường `Email cá nhân` và `Email TDTU` rỗng
+### 1. Trường `Email cá nhân` và `Email TDTU` rỗng
 
 Bản chất dữ liệu của cột `Email cá nhân` và `Email TDTU` trong file Excel không phải dữ liệu tĩnh, mà được sinh ra từ công thức Excel, ví dụ `=VLOOKUP(N2, Email!B:D, 2, 0)`. Điều này có nghĩa là giá trị email không được lưu trực tiếp trong ô mà chỉ được tính toán tại thời điểm Excel thực hiện recalculation.
 
