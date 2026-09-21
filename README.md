@@ -20,7 +20,7 @@ Dữ liệu gốc được lưu trong một tệp bảng tính (.xlsx) gồm nhi
 | --- | ---------------- | ------------- | ------------------------------------------------------------------------------------- | ---------------------- |
 | 1   | Mã MH            | String        | Mã định danh của môn học                                                              | 503073                 |
 | 2   | Nhóm             | Integer       | Các sinh viên đăng ký cùng một môn học sẽ được chia vào các nhóm                      | 3                      |
-| 3   | Tổ               | Integer       | Một nhóm có thể được chia thành các tổ để phục vụ cho giờ học thực hành               | 0, 1                   |
+| 3   | Tổ               | Integer       | Một nhóm có thể được chia thành các tổ để phục vụ cho giờ học thực hành               | 0                      |
 | 4   | Tên môn          | String        | Tên môn học                                                                           | Cơ sở dữ liệu          |
 | 5   | Sỉ số            | Integer       | Số lượng sinh viên trong một nhóm hoặc tổ                                             | 45                     |
 | 6   | Thứ              | Integer       | Thứ học trong tuần                                                                    | 2                      |
@@ -31,9 +31,28 @@ Dữ liệu gốc được lưu trong một tệp bảng tính (.xlsx) gồm nhi
 | 11  | Email TDTU       | String / Null | Địa chỉ email thuộc hệ thống của Trường                                               | nguyenvana@tdtu.edu.vn |
 | 12  | Hệ ĐT/Hệ đào tạo | String        | Hệ đào tạo của sinh viên                                                              | Tiêu chuẩn             |
 
-Sau khi hoàn tất, dữ liệu được lưu dưới định dạng JSON. File JSON có cấu trúc là một mảng các đối tượng, trong đó mỗi đối tượng đại diện cho một nhóm hoặc một tổ.
-<br>
-Đồng thời, tên các trường dữ liệu được chuyển sang tiếng Anh nhằm tránh các vấn đề liên quan đến dấu tiếng Việt và khoảng trắng. Bảng ánh xạ tên trường dữ liệu như sau:
+Sau khi hoàn tất, dữ liệu được lưu dưới định dạng JSON. File JSON có cấu trúc là một mảng các đối tượng, trong đó mỗi đối tượng đại diện cho một nhóm hoặc một tổ. Đồng thời, tên các trường dữ liệu được chuyển sang tiếng Anh nhằm tránh các vấn đề liên quan đến dấu tiếng Việt và khoảng trắng.
+
+```
+[
+    {
+        "CourseID":"503073",
+        "CourseName":"Cấu trúc rời rạc",
+        "Group":3,
+        "SubGroup":0,
+        "DayOfWeek":2,
+        "TimeSlot":"123-------------",
+        "RoomID":"C203",
+        "Capacity":45,
+        "Lecturer":"Nguyễn Văn A",
+        "PersonalEmail":"nguyenvana@gmail.com",
+        "UniversityEmail":"nguyenvana@tdtu.edu.vn",
+        "Program":"Tiêu chuẩn"
+    }
+]
+```
+
+Bảng ánh xạ tên trường dữ liệu như sau:
 
 | STT | Tên trường (English) | Tên trường tương ứng (Tiếng Việt) |
 | --- | -------------------- | --------------------------------- |
@@ -72,8 +91,10 @@ Sau khi hoàn tất, dữ liệu được lưu dưới định dạng JSON. File
   - Một giảng viên bất kỳ có dạy nhiều hơn một lớp tại một thời điểm hay không.
   - Một phòng học bất kỳ có được phân nhiều hơn một lớp tại một thời điểm hay không.
 - Với mỗi tập chứa các dòng dữ liệu mâu thuẫn, I = {i_0, i_1,..., i_n}, việc lựa chọn dòng dữ liệu nào được giữ lại thực hiện theo các tiêu chí sau:
-  - Nếu tồn tại dòng dữ liệu i_j sao cho việc giữ lại i_j đồng thời làm tối thiểu hóa: - tổng tỷ lệ dữ liệu mất mát theo môn học (của các dòng dữ liệu còn lại trong I), và - tổng tỷ lệ dữ liệu mất mát theo hệ đào tạo (của các dòng dữ liệu còn lại trong I),  
-    thì ta giữ lại dòng dữ liệu i_j.
+  - Nếu tồn tại dòng dữ liệu i_j sao cho việc giữ lại i_j đồng thời làm tối thiểu hóa:
+    - tổng tỷ lệ dữ liệu mất mát theo môn học (của các dòng dữ liệu còn lại trong I), và 
+    - tổng tỷ lệ dữ liệu mất mát theo hệ đào tạo (của các dòng dữ liệu còn lại trong I),  
+thì ta giữ lại dòng dữ liệu i_j.
 
   - Trong các trường hợp còn lại, giữ lại dòng dữ liệu i_j sao cho tổng của hai tỷ lệ mất mát trên là nhỏ nhất.
 
@@ -136,10 +157,23 @@ Trong khi đó, thư viện `pandas` không thực thi công thức Excel, mà c
 
 ├── EDA/
 │   ├── data/
-│   │   ├── duplicate_data/         // Chứa các tập dữ liệu bị trùng lặp
-│   │   ├── final_data/             // Chứa dữ liệu sau quá trình xử lý mâu thuẫn
-│   │   ├── normalized_data/        // Chứa dữ liệu sau quá trình tiền xử lý
 │   │   ├── raw_data                // Chứa dữ liệu gốc
+│   │   |   ├── 2022-2023   
+│   │   |   |   ├── HK1 
+│   │   |   |   |   ├── DSSV.xlsx 
+│   │   |   |   |   └── TKB.xlsx 
+│   │   |   |   ├── HK2 
+│   │   |   |   |   ├── DSSV.xlsx 
+│   │   |   |   |   └── TKB.xlsx 
+|   |   |   |   
+│   │   |   ├── 2023-2024   
+│   │   |   |   ├── HK1 
+│   │   |   |   |   ├── DSSV.xlsx 
+│   │   |   |   |   └── TKB.xlsx 
+│   │   |   |   ├── HK2 
+│   │   |   |   |   ├── DSSV.xlsx 
+│   │   |   |   |   └── TKB.xlsx 
+|   |   |   
 │   │   └── training_ready_data     // Chứa dữ liệu sau khi đã hoàn thành xử lý, có thể đưa vào máy học.
 │   ├── pipeline/                   // Chứa các file thư viện
 │   │   ├── data_inconsistency.py   // Xử lý dữ liệu mâu thuẫn
